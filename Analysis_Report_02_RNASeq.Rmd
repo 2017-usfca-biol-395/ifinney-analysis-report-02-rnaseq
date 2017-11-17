@@ -65,7 +65,7 @@ stopifnot(exists("final_table"))
 # subset it down to just a few here to look for interesting patterns
 # in the most highly expressed
 top_15 <- final_table %>%
-  group_by(gender, genename) %>%
+  group_by(genename) %>%
   summarize(mean_count = mean(counts_lengthscaledtpm)) %>%
   arrange(desc(mean_count)) %>%
   head(n = 15)
@@ -76,22 +76,68 @@ top_15 %>%
   kable()
 ```
 
-**Table 1**: The most highly expressed genes in both genders included *SFTPB* and *EEF1A1*.
+**Table 1**: The most highly expressed genes included are *SFTPB* and *EEF1A1*.
+
+```{r boxplot-of-highly-expressed-genes-by-smoking-status, echo = FALSE}
+top_genes <- top_15 %>%
+  ungroup() %>%
+  select(genename) %>%
+  unique() %>%
+  pull()
+
+final_table %>%
+  filter(genename %in% top_genes) %>%
+  ggplot(aes(x = genename,
+             y = counts_lengthscaledtpm,
+             fill = gender)) +
+    geom_boxplot() +
+    facet_wrap(~smoking_status) +
+    xlab("Gene Name") +
+    ylab("Scaled Read Counts per Gene") +
+    ggtitle("Read Counts per Gene by Gender and Smoking Status") +
+    theme_bw() + # simplifies theme
+    theme(axis.text.x = # rotates x axis labels vertically
+            element_text(angle = 90,
+                         hjust = 1))
+```
+
+**Figure 1**: In this study, smoking status shows that overall, more males admitted to being current smokers or having smoked previously.
+
 
 ```{r make-barplot-of-highly-expressed-genes, echo = FALSE}
 # this code uses the same data as above, but use it to make a
 # barplot - remember geom_col() is just like
 # when you use geom_bar(stat = "identity")
-top_15 %>%
+final_table %>%
+  filter(genename %in% top_genes) %>%
+  group_by(genename, gender) %>%
+  summarize(mean_count = mean(counts_lengthscaledtpm)) %>%
   ggplot(aes(x = genename,
              y = mean_count,
              fill = gender)) +
     geom_col(position = "dodge")
 ```
 
-**Figure 1**: Here we show an example figure caption.
+**Figure 2**: From the 15 most highly expressed genes, males, on average, show a higher expression count than females do. 
 
-```{r make-boxplot-of-highly-expressed-genes, echo = FALSE}
+```{r bar-plot-of-highest-expressed-genes-by-cancer-stage, echo = FALSE}
+top_genes <- top_15 %>%
+  ungroup() %>%
+  select(genename) %>%
+  unique() %>%
+  pull()
+
+final_table %>%
+  filter(genename %in% top_genes) %>%
+  ggplot(aes(x = genename,
+             y = counts_lengthscaledtpm,
+             fill = cancer_stage)) +
+    geom_col(position = "dodge")
+```
+
+**Figure 3**: This figure compares the highest expression levels of these 15 genes at each cancer stage. The majority of the genes show highest expression levels at stage 2B cancer. 
+
+```{r make-boxplot-of-highly-expressed-genes-by-gender, echo = FALSE}
 # here we just want to pull out the unique gene names and turn
 # them into a vector so we can use it below to make a boxplot
 # we use the pull() funtion to get this as a vector, just like
@@ -113,15 +159,37 @@ final_table %>%
     geom_boxplot() +
     facet_wrap(~cancer_stage) +
     xlab("Gene Name") +
-    ylab("Scaled read counts per gene") +
-    ggtitle("Read counts per gene by gender and cancer stage") +
+    ylab("Scaled Read Counts per Gene") +
+    ggtitle("Read Counts per Gene by Gender and Cancer Stage") +
     theme_bw() + # simplifies theme
     theme(axis.text.x = # rotates x axis labels vertically
             element_text(angle = 90,
-                         hjust = 1))
+                         hjust = 1)) +
+  scale_y_log10()
 ```
 
-**Figure 2**: Here we show another example figure caption.
+**Figure 4**: Comparison of high expression levels by gender and cancer stage. Over every stage of cancer, expression levels in each gene are often slightly higher in males. Interestingly at stage 2B cancer, high expression levels are only seen in males.
+
+
+```{r boxplot-of-gender-and-cancer-on-random-genes, echo = FALSE}
+final_table %>%
+  filter(genename %in% c("FN1", "FTH1", "FTL")) %>%
+  ggplot(aes(x = genename,
+             y = counts_lengthscaledtpm,
+             fill = gender)) +
+    geom_boxplot() +
+    facet_wrap(~cancer_stage) +
+    xlab("Gene Name") +
+    ylab("Scaled Read Counts per Gene") +
+    ggtitle("Read Counts per Gene by Gender and Cancer Stage for the Genes FN1, FTH1, AND FTL") +
+    theme_bw() + # simplifies theme
+    theme(axis.text.x = # rotates x axis labels vertically
+            element_text(angle = 90,
+                         hjust = 1)) +
+  scale_y_log10()
+```
+
+**Figure 5**: A comparison of three random genes shows that male gene expression grows exponentially higher at later cancer stages. 
 
 # Discussion
 
