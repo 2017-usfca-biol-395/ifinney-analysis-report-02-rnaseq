@@ -181,7 +181,7 @@ final_table %>%
     facet_wrap(~cancer_stage) +
     xlab("Gene Name") +
     ylab("Scaled Read Counts per Gene") +
-    ggtitle("Read Counts per Gene by Gender and Cancer Stage for the Genes FN1, FTH1, AND FTL") +
+    ggtitle("Read Counts per Gene by Gender and Cancer Stage for Tested Genes") +
     theme_bw() + # simplifies theme
     theme(axis.text.x = # rotates x axis labels vertically
             element_text(angle = 90,
