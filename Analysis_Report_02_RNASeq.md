@@ -26,8 +26,6 @@ These are the methods that were used to process the sequencing data. Should prob
 Results
 =======
 
-In addition to a minimum of 4-5 figures/tables (and associated captions), you should include sufficient text in this section to describe what your findings were. Remember that in the results section you just describe what you found, but you don't interpret it - that happens in the discussion.
-
 | genename |  mean\_count|
 |:---------|------------:|
 | EEF1A1   |    171057.69|
@@ -62,11 +60,7 @@ In addition to a minimum of 4-5 figures/tables (and associated captions), you sh
 
 ![](Analysis_Report_02_RNASeq_files/figure-markdown_github-ascii_identifiers/make-boxplot-of-highly-expressed-genes-by-gender-1.png)
 
-**Figure 4**: Comparison of high expression levels by gender and cancer stage. Over every stage of cancer, expression levels in each gene are often slightly higher in males. Interestingly at stage 2B cancer, high expression levels are only seen in males.
-
-![](Analysis_Report_02_RNASeq_files/figure-markdown_github-ascii_identifiers/boxplot-of-gender-and-cancer-on-random-genes-1.png)
-
-**Figure 5**: A comparison of three random genes shows that male gene expression grows exponentially higher at later cancer stages.
+**Figure 4**: Comparison of high expression levels by gender and cancer stage. Over every stage of cancer, expression levels in each gene are often slightly higher in males. Interestingly at stage 2B cancer, high expression levels are only seen in males. Male expression general grows higher at later cancer stages.
 
 Discussion
 ==========
