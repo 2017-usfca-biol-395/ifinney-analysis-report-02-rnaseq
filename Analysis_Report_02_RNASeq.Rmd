@@ -25,8 +25,6 @@ These are the methods that were used to process the sequencing data. Should prob
 
 # Results
 
-In addition to a minimum of 4-5 figures/tables (and associated captions), you should include sufficient text in this section to describe what your findings were. Remember that in the results section you just describe what you found, but you don't interpret it - that happens in the discussion.
-
 ```{r load-libraries, message = FALSE, echo = FALSE}
 # Be sure to install these packages before running this script
 # They can be installed either with the intall.packages() function
@@ -157,7 +155,7 @@ final_table %>%
              y = counts_lengthscaledtpm,
              fill = gender)) +
     geom_boxplot() +
-    facet_wrap(~cancer_stage) +
+    facet_wrap(~cancer_stage, ncol = 2) +
     xlab("Gene Name") +
     ylab("Scaled Read Counts per Gene") +
     ggtitle("Read Counts per Gene by Gender and Cancer Stage") +
@@ -168,29 +166,9 @@ final_table %>%
   scale_y_log10()
 ```
 
-**Figure 4**: Comparison of high expression levels by gender and cancer stage. Over every stage of cancer, expression levels in each gene are often slightly higher in males. Interestingly at stage 2B cancer, high expression levels are only seen in males.
+**Figure 4**: Comparison of high expression levels by gender and cancer stage. Over every stage of cancer, expression levels in each gene are often slightly higher in males. Interestingly at stage 2B cancer, high expression levels are only seen in males. Male expression general grows higher at later cancer stages.
 
-
-```{r boxplot-of-gender-and-cancer-on-random-genes, echo = FALSE}
-final_table %>%
-  filter(genename %in% c("FN1", "FTH1", "FTL")) %>%
-  ggplot(aes(x = genename,
-             y = counts_lengthscaledtpm,
-             fill = gender)) +
-    geom_boxplot() +
-    facet_wrap(~cancer_stage) +
-    xlab("Gene Name") +
-    ylab("Scaled Read Counts per Gene") +
-    ggtitle("Read Counts per Gene for Tested Genes") +
-    theme_bw() + # simplifies theme
-    theme(axis.text.x = # rotates x axis labels vertically
-            element_text(angle = 90,
-                         hjust = 1)) +
-  scale_y_log10()
-```
-
-**Figure 5**: A comparison of three random genes shows that male gene expression grows exponentially higher at later cancer stages. 
-
+  
 # Discussion
 
 Add around 1-2 pages interpreting your results and considering future directions one might take in analyzing these data.
