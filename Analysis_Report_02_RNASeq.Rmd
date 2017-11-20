@@ -1,5 +1,5 @@
 ---
-title: "Analysis Report 2: Your Title Here"
+title: "Analysis Report 2: Comparison of Gene Expression Levels in Male and Female Lung Cancer Patients"
 author: "Isabella Finney"
 date: "November 20, 2017"
 output: github_document
@@ -10,8 +10,10 @@ csl: bioinformatics.csl
 # Introduction
 
 The history of smoking in the world dates back to at least 4,000 BC. For much of history, the world used tobacco for different purposes such as trade, medicinal alleviation, and hallucinogenic uses. In the 20th century, smoking became a part of the mainstream culture as it was widely advertised and glamorized in the media by huge tobacco industries. It was not until the late 1980s, that research on the effects of tobacco and smoking started and soon after many results showed the gruesome results that tobacco and heavy smoking causes on the body as well as the ecosystem. From then on, policies, organizations, and campaigns have been enacted all over the world in an effort to reduce the negative effects it has caused to both people and the environment [@koh2007making].  
-The effects of smoking are damaging to nearly every organ in the body. Years of extensive research shows that exposure to smoking leads to years of damage to the body. Unfortunately, it is also the leading preventable cause of cancer and death in the world [@centers2010tobacco].  The development and application of modern molecular methods has made it possible for scientists to more fully understand how exactly smoking increases the risk for contracting various diseases and cancers in the body [@powell2013association]. After doing much research, scientists were able to identity differences in molecular characteristics between smokers and nonsmokers who were diagnosed with lung cancer. For example, Massion et al. located structural differences in the genomes of smokers and nonsmokers with adenocarcinomas which help propose the idea that smoking affects the molecular pathways that form during cancer development [@massion2008smoking].
-	One of the most useful tools for investigating lung cancer development is RNA-seq technology. This technology helps in providing a tool for transcriptome analysis in studies. It presents a great utility for detecting tumor-associated genes as well as identifying of cancer pathogenesis because of its sensitivity and has less background noise from image analysis [@khoury2013landscape]. The paper done by Li et al. examined the pair-wise comparison analysis on samples collected from a previous study that did RNA-seq analysis on paired normal and tumor tissues. This study aimed to distinguish the differences between gene expression profile between smoking and nonsmoking patients in the hopes of creating better individualized treatments [@li2015rna]. Using the dataset from this study, I investigated whether gender plays a risk factor in being more susceptible to contracting lung cancer. With the use of this dataset, I hypothesized that men would exhibit higher levels of gene expression in different cancer stages. I made this hypothesis due to the history associated with it being more acceptable for men to smoke. I also factored in statistics showing that overall, men had a higher mortality rate than women in cigarette smoking [@hammond1966smoking].
+
+The effects of smoking are damaging to nearly every organ in the body. Years of extensive research shows that exposure to smoking leads to years of damage to the body. Unfortunately, it is also the leading preventable cause of cancer and death in the world [@centers2010tobacco].  The development and application of modern molecular methods has made it possible for scientists to more fully understand how exactly smoking increases the risk for contracting various diseases and cancers in the body [@powell2013association]. After doing much research, scientists were able to identity differences in molecular characteristics between smokers and nonsmokers who were diagnosed with lung cancer. For example, Massion et al. located structural differences in the genomes of smokers and nonsmokers with adenocarcinomas which help propose the idea that smoking affects the molecular pathways that form during cancer development [@massion2008smoking]. 
+
+One of the most useful tools for investigating lung cancer development is RNA-seq technology. This technology helps in providing a tool for transcriptome analysis in studies. It presents a great utility for detecting tumor-associated genes as well as identifying of cancer pathogenesis because of its sensitivity and has less background noise from image analysis [@khoury2013landscape]. The paper done by Li et al. examined the pair-wise comparison analysis on samples collected from a previous study that did RNA-seq analysis on paired normal and tumor tissues. This study aimed to distinguish the differences between gene expression profile between smoking and nonsmoking patients in the hopes of creating better individualized treatments [@li2015rna]. Using the dataset from this study, I investigated whether gender plays a risk factor in being more susceptible to contracting lung cancer. With the use of this dataset, I hypothesized that men would exhibit higher levels of gene expression in different cancer stages. I made this hypothesis due to the history associated with it being more acceptable for men to smoke. I also factored in statistics showing that overall, men had a higher mortality rate than women in cigarette smoking [@hammond1966smoking].
 	
 
 # Methods
@@ -114,7 +116,10 @@ final_table %>%
   ggplot(aes(x = genename,
              y = mean_count,
              fill = gender)) +
-    geom_col(position = "dodge")
+    geom_col(position = "dodge") +
+  theme(axis.text.x = # rotates x axis labels vertically
+            element_text(angle = 45,
+                         hjust = 1))
 ```
 
 **Figure 2**: From the 15 most highly expressed genes, males, on average, show a higher expression count than females do. 
@@ -131,7 +136,10 @@ final_table %>%
   ggplot(aes(x = genename,
              y = counts_lengthscaledtpm,
              fill = cancer_stage)) +
-    geom_col(position = "dodge")
+    geom_col(position = "dodge") +
+  theme(axis.text.x = # rotates x axis labels vertically
+            element_text(angle = 45,
+                         hjust = 1))
 ```
 
 **Figure 3**: This figure compares the highest expression levels of these 15 genes at each cancer stage. The majority of the genes show highest expression levels at stage 2B cancer. 
@@ -162,7 +170,7 @@ final_table %>%
     ggtitle("Read Counts per Gene by Gender and Cancer Stage") +
     theme_bw() + # simplifies theme
     theme(axis.text.x = # rotates x axis labels vertically
-            element_text(angle = 90,
+            element_text(angle = 45,
                          hjust = 1)) +
   scale_y_log10()
 ```
@@ -172,6 +180,8 @@ final_table %>%
   
 # Discussion
 
-Add around 1-2 pages interpreting your results and considering future directions one might take in analyzing these data.
+All of the figures for the results were formed through taking smaller sets of the whole metadata and outputting it in the form of different plots. Taking in the data presented from the 15 most expressed genes (Table 1), I determined that overall men experienced higher gene expression in later stages of cancer. Figure 1 shows that more males admitted to being current or previous smokers while the highest proportion of female expression dominants the “never” smoked category. To investigate how much gene expression is present in males and females among all lung cancer patients, males also hold higher expression rates than females do with a few exceptions including the *SFTPA1* and *SFTPB* genes. These figures helped in supporting part of my hypothesis in that male lung cancer patients exhibited higher gene expressions but it is interesting to note that female expression is not far enough from males. 
+
+These findings pushed me to further investigate if the second portion of my hypothesis held true in terms of this dataset. To investigate whether the second portion of my hypothesis held any validity, I considered the effect of gender gene expression on different cancer stages (Figures 3 and 4). Looking at gene expression and cancer stage, I examined that the highest expression levels among the majority of the genes were present in stages 1A and 2B lung cancer. Interestingly, gene expression lowers as later stages especially in stage 3B cancer. This shows that the most common genes do follow the trend of decreasing in expression as cancer stages progress. This interesting finding did present the possibility to further research whether this trend is present in most forms of cancer progression and not just present in this dataset. I finally examine the relationship between different cancer stages as they relate to gene expression and gender. The results from this graph showed that over each stage of cancer, males exhibited slightly higher expression levels and these expressions grow higher at later cancer stages. The most interesting part of this data is that only males express very high expressions at stage 2B lung cancer. An important factor to keep in mind is that my figures are based on the top 15 genes with the highest expression overall so there may be some genes present within these patients that are drastically different than the general trends observed so further research on this data should be conducted. 
 
 # Sources Cited
